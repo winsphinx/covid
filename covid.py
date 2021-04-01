@@ -18,7 +18,7 @@ def adjust_date(s):
 
 
 df = pd.read_csv(
-    'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
+    "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
 ).drop(columns=["Lat", "Long"]).groupby("Country/Region").sum().transpose()
 df.index = pd.DatetimeIndex(df.index.map(adjust_date))
 
@@ -78,7 +78,7 @@ def draw(data, name):
     plt.plot(forecasting.index, forecasting, label="预测值", color="red")
     # plt.fill_between(forecasting.index, pred_ci[:, 0], pred_ci[:, 1], color="black", alpha=.25)
 
-    plt.savefig(os.path.join("fig", f"covid-{name}.png"), bbox_inches="tight")
+    plt.savefig(os.path.join("figures", f"covid-{name}.png"), bbox_inches="tight")
 
 
 if __name__ == "__main__":
