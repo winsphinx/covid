@@ -13,8 +13,8 @@ from sklearn.metrics import r2_score
 
 # 准备数据
 def adjust_date(s):
-    l = s.split("/")
-    return f"20{l[2]}-{int(l[0]):02d}-{int(l[1]):02d}"
+    t = s.split("/")
+    return f"20{t[2]}-{int(t[0]):02d}-{int(t[1]):02d}"
 
 
 df = pd.read_csv(
@@ -64,9 +64,7 @@ def draw(data, name):
 
     # 预测未来
     pred, pred_ci = model.predict(n_periods=14, return_conf_int=True)
-    idx = pd.date_range(data.index.max() + pd.Timedelta("1D"),
-                        periods=14,
-                        freq="D")
+    idx = pd.date_range(data.index.max() + pd.Timedelta("1D"), periods=14, freq="D")
     forecasting = pd.Series(pred, index=idx)
 
     # 绘图呈现
@@ -78,11 +76,7 @@ def draw(data, name):
     plt.plot(data.index, data, label="实际值", color="blue")
     plt.plot(validating.index, validating, label="校验值", color="orange")
     plt.plot(forecasting.index, forecasting, label="预测值", color="red")
-    plt.fill_between(forecasting.index,
-                     pred_ci[:, 0],
-                     pred_ci[:, 1],
-                     color="black",
-                     alpha=.25)
+    # plt.fill_between(forecasting.index, pred_ci[:, 0], pred_ci[:, 1], color="black", alpha=.25)
 
     plt.savefig(os.path.join("fig", f"covid-{name}.png"), bbox_inches="tight")
 
