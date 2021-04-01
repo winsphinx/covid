@@ -70,19 +70,20 @@ def draw(data, name):
     forecasting = pd.Series(pred, index=idx)
 
     # 绘图呈现
-    _, ax = plt.subplots(figsize=(18, 8))
-
-    ax.plot(data.index, data, label="实际值", color="blue")
-    ax.plot(validating.index, validating, label="校验值", color="orange")
-    ax.plot(forecasting.index, forecasting, label="预测值", color="red")
-    # ax.fill_between(forecasting.index,
-    #                 pred_ci[:, 0],
-    #                 pred_ci[:, 1],
-    #                 color="black",
-    #                 alpha=.25)
+    plt.figure(figsize=(15, 6))
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     plt.legend()
     plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
+
+    plt.plot(data.index, data, label="实际值", color="blue")
+    plt.plot(validating.index, validating, label="校验值", color="orange")
+    plt.plot(forecasting.index, forecasting, label="预测值", color="red")
+    plt.fill_between(forecasting.index,
+                     pred_ci[:, 0],
+                     pred_ci[:, 1],
+                     color="black",
+                     alpha=.25)
+
     plt.savefig(os.path.join("fig", f"covid-{name}.png"), bbox_inches="tight")
 
 
