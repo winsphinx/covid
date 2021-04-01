@@ -1,23 +1,23 @@
 # CCOVID预测
 
-![img](fig/covid-Brazil.png)
+![img](figures/covid-Brazil.png)
 
-![img](fig/covid-China.png)
+![img](figures/covid-China.png)
 
-![img](fig/covid-France.png)
+![img](figures/covid-France.png)
 
-![img](fig/covid-Germany.png)
+![img](figures/covid-Germany.png)
 
-![img](fig/covid-India.png)
+![img](figures/covid-India.png)
 
-![img](fig/covid-Italy.png)
+![img](figures/covid-Italy.png)
 
-![img](fig/covid-Japan.png)
+![img](figures/covid-Japan.png)
 
-![img](fig/covid-Russia.png)
+![img](figures/covid-Russia.png)
 
-![img](fig/covid-Spain.png)
+![img](figures/covid-Spain.png)
 
-![img](fig/covid-UK.png)
+![img](figures/covid-UK.png)
 
-![img](fig/covid-US.png)
+![img](figures/covid-US.png)
