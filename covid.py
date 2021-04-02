@@ -17,7 +17,7 @@ def adjust_date(s):
     return f"20{t[2]}-{int(t[0]):02d}-{int(t[1]):02d}"
 
 
-def draw(name, data):
+def draw(name, data, isDaily):
     # 模型训练
     model = arima.AutoARIMA(start_p=1,
                             max_p=7,
@@ -60,7 +60,10 @@ def draw(name, data):
     plt.legend()
     # plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
-    plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.png"), bbox_inches="tight")
+    if isDaily:
+        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}-daily.png"), bbox_inches="tight")
+    else:
+        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.png"), bbox_inches="tight")
 
 
 if __name__ == "__main__":
@@ -87,7 +90,10 @@ if __name__ == "__main__":
     threads = []
 
     for country in countries:
-        t = threading.Thread(target=draw, args=(country, df[country].diff().dropna()))
+        t = threading.Thread(target=draw, args=(country, df[country], False))
+        threads.append(t)
+
+        t = threading.Thread(target=draw, args=(country, df[country].diff().dropna(), True))
         threads.append(t)
 
     for t in threads:
@@ -96,5 +102,6 @@ if __name__ == "__main__":
     with codecs.open("README.md", "w", 'utf-8') as f:
         f.write("# COVID 预测\n\n")
         for country in countries:
-            f.write(f"### {country}\n")
+            f.write(f"### {country}\n\n")
             f.write(f"![img](figures/covid-{country.replace(' ', '_')}.png)\n\n")
+            f.write(f"![img](figures/covid-{country.replace(' ', '_')}-daily.png)\n\n")
