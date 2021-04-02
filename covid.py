@@ -60,7 +60,7 @@ def draw(name, data):
     plt.legend()
     # plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
-    plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '')}.png"), bbox_inches="tight")
+    plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.png"), bbox_inches="tight")
 
 
 if __name__ == "__main__":
@@ -94,7 +94,7 @@ if __name__ == "__main__":
         t.start()
 
     with codecs.open("README.md", "w", 'utf-8') as f:
-        f.write("# CCOVID 预测\n\n")
+        f.write("# COVID 预测\n\n")
         for country in countries:
             f.write(f"### {country}\n")
-            f.write(f"![img](figures/covid-{country.replace(' ', '')}.png)\n\n")
+            f.write(f"![img](figures/covid-{country.replace(' ', '_')}.png)\n\n")
