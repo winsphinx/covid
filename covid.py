@@ -72,17 +72,17 @@ if __name__ == "__main__":
 
     # 多线程
     countries = [
-#        "China",
-#        "US",
-#        "Russia",
-#        "Japan",
-#        "India",
+        "China",
+        "US",
+        "Russia",
+        "Japan",
+        "India",
         "United Kingdom",
-#        "Italy",
-#        "France",
-#        "Germany",
-#        "Spain",
-#        "Brazil",
+        "Italy",
+        "France",
+        "Germany",
+        "Spain",
+        "Brazil",
     ]
     threads = []
 
