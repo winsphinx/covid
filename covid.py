@@ -60,7 +60,7 @@ def draw(name, data):
     plt.legend()
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
-    plt.savefig(os.path.join("figures", f"covid-{name}.png"), bbox_inches="tight")
+    plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '')}.png"), bbox_inches="tight")
 
 
 if __name__ == "__main__":
@@ -72,17 +72,17 @@ if __name__ == "__main__":
 
     # 多线程
     countries = [
-        "China",
-        "US",
-        "Russia",
-        "Japan",
-        "India",
+#        "China",
+#        "US",
+#        "Russia",
+#        "Japan",
+#        "India",
         "United Kingdom",
-        "Italy",
-        "France",
-        "Germany",
-        "Spain",
-        "Brazil",
+#        "Italy",
+#        "France",
+#        "Germany",
+#        "Spain",
+#        "Brazil",
     ]
     threads = []
 
@@ -97,4 +97,4 @@ if __name__ == "__main__":
         f.write("# CCOVID 预测\n\n")
         for country in countries:
             f.write(f"### {country}\n")
-            f.write(f"![img](figures/covid-{country}.png)\n\n")
+            f.write(f"![img](figures/covid-{country.replace(' ', '')}.png)\n\n")
