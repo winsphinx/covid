@@ -52,13 +52,13 @@ def draw(name, data):
     # 绘图呈现
     plt.figure(figsize=(15, 6))
 
-    plt.plot(data.index, data, label="实际值", color="blue")
-    plt.plot(validating.index, validating, label="校验值", color="orange")
-    plt.plot(forecasting.index, forecasting, label="预测值", color="red")
+    plt.plot(data.index, data, label="Actual Data", color="blue")
+    plt.plot(validating.index, validating, label="Valadation", color="orange")
+    plt.plot(forecasting.index, forecasting, label="Forecasting", color="red")
     # plt.fill_between(forecasting.index, pred_ci[:, 0], pred_ci[:, 1], color="black", alpha=.25)
 
     plt.legend()
-    plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
+    # plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
     plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '')}.png"), bbox_inches="tight")
 
