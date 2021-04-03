@@ -60,10 +60,10 @@ def draw(name, data, isDaily):
     plt.legend()
     # plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
-        plt.title(f"Forecasting - {name} (R2 = {r2:.6f})")
+        plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}-daily.png"), bbox_inches="tight")
     else:
-        plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
+        plt.title(f"Forecasting - {name} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.png"), bbox_inches="tight")
 
 
