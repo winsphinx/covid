@@ -96,8 +96,12 @@ if __name__ == "__main__":
         t = threading.Thread(target=draw, args=(country, df[country].diff().dropna(), True))
         threads.append(t)
 
-    for t in threads:
-        t.start()
+    N = 4
+    for sub in range(0, len(threads), N):
+        for t in threads[sub:sub + N]:
+            t.start()
+        for t in threads[sub:sub + N]:
+            t.join()
 
     with codecs.open("README.md", "w", 'utf-8') as f:
         f.write("# COVID 预测\n\n")
