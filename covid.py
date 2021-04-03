@@ -89,6 +89,7 @@ if __name__ == "__main__":
         "Spain",
         "Canada",
         "Brazil",
+        "Cuba",
     ]
     threads = []
 
@@ -99,7 +100,7 @@ if __name__ == "__main__":
         t = threading.Thread(target=draw, args=(country, df[country].diff().dropna(), True))
         threads.append(t)
 
-    N = 4
+    N = 8
     for sub in range(0, len(threads), N):
         for t in threads[sub:sub + N]:
             t.start()
