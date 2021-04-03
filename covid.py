@@ -19,16 +19,16 @@ def adjust_date(s):
 
 def draw(name, data, isDaily):
     # 模型训练
-    model = arima.AutoARIMA(start_p=1,
-                            max_p=7,
+    model = arima.AutoARIMA(start_p=0,
+                            max_p=4,
                             d=1,
                             start_q=0,
-                            max_q=2,
+                            max_q=1,
                             start_P=1,
-                            max_P=7,
-                            D=1,
+                            max_P=1,
+                            D=0,
                             start_Q=0,
-                            max_Q=2,
+                            max_Q=1,
                             m=7,
                             seasonal=True,
                             test="adf",
