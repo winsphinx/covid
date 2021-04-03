@@ -80,12 +80,14 @@ if __name__ == "__main__":
         "US",
         "Russia",
         "Japan",
+        "Korea, South",
         "India",
         "United Kingdom",
         "Italy",
         "France",
         "Germany",
         "Spain",
+        "Canada",
         "Brazil",
     ]
     threads = []
