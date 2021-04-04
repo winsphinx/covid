@@ -58,6 +58,7 @@ def draw(name, data, isDaily):
     # plt.fill_between(forecasting.index, pred_ci[:, 0], pred_ci[:, 1], color="black", alpha=.25)
 
     plt.legend()
+    plt.ticklabel_format(style='plain', axis='y')
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
         plt.title(f"每日新增预测 - {name} (R2 = {r2:.6f})")
