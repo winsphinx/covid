@@ -62,10 +62,10 @@ def draw(name, data, isDaily):
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
         plt.title(f"每日新增预测 - {name} (R2 = {r2:.6f})")
-        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}-daily.png"), bbox_inches="tight")
+        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}-daily.svg"), bbox_inches="tight")
     else:
         plt.title(f"累计确诊预测 - {name} (R2 = {r2:.6f})")
-        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.png"), bbox_inches="tight")
+        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.svg"), bbox_inches="tight")
 
 
 if __name__ == "__main__":
@@ -113,5 +113,5 @@ if __name__ == "__main__":
         f.write("# COVID 预测\n\n")
         for country in countries:
             f.write(f"### {country}\n\n")
-            f.write(f"![img](figures/covid-{country.replace(' ', '_')}.png)\n\n")
-            f.write(f"![img](figures/covid-{country.replace(' ', '_')}-daily.png)\n\n")
+            f.write(f"![img](figures/covid-{country.replace(' ', '_')}.svg)\n\n")
+            f.write(f"![img](figures/covid-{country.replace(' ', '_')}-daily.svg)\n\n")
