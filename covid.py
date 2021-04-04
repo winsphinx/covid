@@ -44,7 +44,7 @@ def draw(name, data, isDaily):
     validating = pd.Series(pred_test, index=test.index)
     r2 = r2_score(test, pred_test)
 
-    # 预测未来
+    # 开始预测
     pred, pred_ci = model.predict(n_periods=14, return_conf_int=True)
     idx = pd.date_range(data.index.max() + pd.Timedelta("1D"), periods=14, freq="D")
     forecasting = pd.Series(pred, index=idx)
@@ -52,18 +52,18 @@ def draw(name, data, isDaily):
     # 绘图呈现
     plt.figure(figsize=(15, 6))
 
-    plt.plot(data.index, data, label="Actual Data", color="blue")
-    plt.plot(validating.index, validating, label="Valadation", color="orange")
-    plt.plot(forecasting.index, forecasting, label="Forecasting", color="red")
+    plt.plot(data.index, data, label="实际值", color="blue")
+    plt.plot(validating.index, validating, label="校验值", color="orange")
+    plt.plot(forecasting.index, forecasting, label="预测值", color="red")
     # plt.fill_between(forecasting.index, pred_ci[:, 0], pred_ci[:, 1], color="black", alpha=.25)
 
     plt.legend()
-    # plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
+    plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
-        plt.title(f"Daily Increasement Forecasting - {name} (R2 = {r2:.6f})")
+        plt.title(f"每日新增预测 - {name} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}-daily.png"), bbox_inches="tight")
     else:
-        plt.title(f"Forecasting - {name} (R2 = {r2:.6f})")
+        plt.title(f"累计确诊预测 - {name} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.png"), bbox_inches="tight")
 
 
@@ -107,6 +107,7 @@ if __name__ == "__main__":
         for t in threads[sub:sub + N]:
             t.join()
 
+    # 生成文档
     with codecs.open("README.md", "w", 'utf-8') as f:
         f.write("# COVID 预测\n\n")
         for country in countries:
