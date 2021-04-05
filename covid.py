@@ -19,28 +19,12 @@ def adjust_date(s):
 
 
 def adjust_name(s):
-    return re.sub(r"\*|\,|\(|\)|\*|\ ", "", s)
+    return re.sub(r"\*|\,|\(|\)|\*|\ |\'", "_", s)
 
 
 def draw(name, data, isDaily):
     # 模型训练
-    model = arima.AutoARIMA(start_p=0,
-                            max_p=6,
-                            d=None,
-                            start_q=0,
-                            max_q=5,
-                            start_P=0,
-                            max_P=2,
-                            D=None,
-                            start_Q=0,
-                            max_Q=2,
-                            m=7,
-                            seasonal=True,
-                            test="adf",
-                            trace=True,
-                            error_action="ignore",
-                            suppress_warnings=True,
-                            stepwise=True)
+    model = arima.AutoARIMA(start_p=0, max_p=6, d=None, start_q=0, max_q=5, start_P=0, max_P=2, D=None, start_Q=0, max_Q=2, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
     model.fit(data)
 
     # 模型验证
@@ -77,32 +61,12 @@ def draw(name, data, isDaily):
 
 if __name__ == "__main__":
     # 准备数据
-    df = pd.read_csv(
-        "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
-    ).drop(columns=["Lat", "Long"]).groupby("Country/Region").sum().transpose()
+    df = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv").drop(columns=["Lat", "Long"]).groupby("Country/Region").sum().transpose()
     df.index = pd.DatetimeIndex(df.index.map(adjust_date))
 
-    # 多线程
-    countries = [
-        "China",
-        "US",
-        "Russia",
-        "Japan",
-        "Korea, South",
-        "India",
-        "United Kingdom",
-        "Italy",
-        "France",
-        "Germany",
-        "Spain",
-        "Canada",
-        "Brazil",
-        "Cuba",
-        "Israel",
-        "Serbia",
-    ]
+    countries = df.columns.to_list()
 
-    # 队列
+    # 线程队列
     s = threading.Semaphore(8)
 
     for country in countries:
@@ -114,8 +78,10 @@ if __name__ == "__main__":
         s.acquire()
         t.start()
 
-    # 生成文档
+    # 生成目录
     with codecs.open("README.md", "w", 'utf-8') as f:
+        f.write("[![.github/workflows/build.yml](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
+        f.write("[![.github/workflows/check.yml](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
         f.write("# COVID 预测\n\n")
         for country in countries:
             f.write(f"### {country}\n\n")
