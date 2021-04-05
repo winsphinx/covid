@@ -3,6 +3,7 @@
 
 import codecs
 import os
+import re
 import threading
 
 import matplotlib.pyplot as plt
@@ -15,6 +16,10 @@ from sklearn.metrics import r2_score
 def adjust_date(s):
     t = s.split("/")
     return f"20{t[2]}-{int(t[0]):02d}-{int(t[1]):02d}"
+
+
+def adjust_name(s):
+    return re.sub(r"\*|\,|\(|\)|\*|\ ", "", s)
 
 
 def draw(name, data, isDaily):
@@ -62,10 +67,10 @@ def draw(name, data, isDaily):
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
         plt.title(f"每日新增预测 - {name} (R2 = {r2:.6f})")
-        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '-').replace(',', '')}-daily.svg"), bbox_inches="tight")
+        plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}-daily.svg"), bbox_inches="tight")
     else:
         plt.title(f"累计确诊预测 - {name} (R2 = {r2:.6f})")
-        plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '-').replace(',', '')}.svg"), bbox_inches="tight")
+        plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}.svg"), bbox_inches="tight")
 
     s.release()
 
@@ -114,5 +119,5 @@ if __name__ == "__main__":
         f.write("# COVID 预测\n\n")
         for country in countries:
             f.write(f"### {country}\n\n")
-            f.write(f"![img](figures/covid-{country.replace(' ', '-').replace(',', '')}.svg)\n\n")
-            f.write(f"![img](figures/covid-{country.replace(' ', '-').replace(',', '')}-daily.svg)\n\n")
+            f.write(f"![img](figures/covid-{adjust_name(country)}.svg)\n\n")
+            f.write(f"![img](figures/covid-{adjust_name(country)}-daily.svg)\n\n")
