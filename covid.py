@@ -50,10 +50,10 @@ def draw(name, data, isDaily):
     plt.ticklabel_format(style='plain', axis='y')
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
-        plt.title(f"每日新增预测 - {name} (R2 = {r2:.6f})")
+        plt.title(f"每日新增预测 - {name} \n ARIMA[{model.model_.order} x {model.model_.seasonal_order}] (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}-daily.svg"), bbox_inches="tight")
     else:
-        plt.title(f"累计确诊预测 - {name} (R2 = {r2:.6f})")
+        plt.title(f"累计确诊预测 - {name} \n ARIMA[{model.model_.order} x {model.model_.seasonal_order}] (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}.svg"), bbox_inches="tight")
 
     s.release()
