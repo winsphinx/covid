@@ -67,6 +67,8 @@ def draw(name, data, isDaily):
         plt.title(f"累计确诊预测 - {name} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{name.replace(' ', '_')}.svg"), bbox_inches="tight")
 
+    s.release()
+
 
 if __name__ == "__main__":
     # 准备数据
@@ -92,21 +94,18 @@ if __name__ == "__main__":
         "Brazil",
         "Cuba",
     ]
-    threads = []
+
+    # 队列
+    s = threading.Semaphore(8)
 
     for country in countries:
         t = threading.Thread(target=draw, args=(country, df[country], False))
-        threads.append(t)
+        s.acquire()
+        t.start()
 
         t = threading.Thread(target=draw, args=(country, df[country].diff().dropna(), True))
-        threads.append(t)
-
-    N = 8
-    for sub in range(0, len(threads), N):
-        for t in threads[sub:sub + N]:
-            t.start()
-        for t in threads[sub:sub + N]:
-            t.join()
+        s.acquire()
+        t.start()
 
     # 生成文档
     with codecs.open("README.md", "w", 'utf-8') as f:
