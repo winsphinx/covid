@@ -24,7 +24,7 @@ def adjust_name(s):
 
 def draw(name, data, isDaily):
     # 模型训练
-    model = arima.AutoARIMA(start_p=0, max_p=6, d=None, start_q=0, max_q=5, start_P=0, max_P=2, D=None, start_Q=0, max_Q=2, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
+    model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
     model.fit(data)
 
     # 模型验证
