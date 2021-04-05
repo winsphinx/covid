@@ -67,7 +67,7 @@ if __name__ == "__main__":
     countries = df.columns.to_list()
 
     # 线程队列
-    s = threading.Semaphore(8)
+    s = threading.Semaphore(16)
 
     for country in countries:
         t = threading.Thread(target=draw, args=(country, df[country], False))
