@@ -80,10 +80,11 @@ if __name__ == "__main__":
 
     # 生成目录
     with codecs.open("README.md", "w", 'utf-8') as f:
-        f.write("[![.github/workflows/build.yml](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
-        f.write("[![.github/workflows/check.yml](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
-        f.write("# COVID 预测\n\n")
+        f.write("# COVID-19 预测 ")
+        f.write("[![.github/workflows/build.yml](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)")
+        f.write("[![.github/workflows/check.yml](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)")
+        f.write("\n\n")
         for country in countries:
-            f.write(f"### {country}\n\n")
+            f.write(f"## {country}\n\n")
             f.write(f"![img](figures/covid-{adjust_name(country)}.svg)\n\n")
             f.write(f"![img](figures/covid-{adjust_name(country)}-daily.svg)\n\n")
