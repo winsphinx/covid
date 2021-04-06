@@ -78,7 +78,7 @@ if __name__ == "__main__":
         s.acquire()
         t.start()
 
-    # 生成目录
+    # 编制索引
     with codecs.open("README.md", "w", 'utf-8') as f:
         f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
         f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
