@@ -22,7 +22,7 @@ def adjust_name(s):
     return re.sub(r"\*|\,|\(|\)|\*|\ |\'", "_", s)
 
 
-def draw(name, data, isDaily):
+def draw(country, data, isDaily):
     # 模型训练
     model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
     model.fit(data)
@@ -50,11 +50,11 @@ def draw(name, data, isDaily):
     plt.ticklabel_format(style='plain', axis='y')
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
-        plt.title(f"每日新增预测 - {name}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})")
-        plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}-daily.svg"), bbox_inches="tight")
+        plt.title(f"每日新增预测 - {country}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})")
+        plt.savefig(os.path.join("figures", f"covid-{adjust_name(country)}-daily.svg"), bbox_inches="tight")
     else:
-        plt.title(f"累计确诊预测 - {name}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})")
-        plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}.svg"), bbox_inches="tight")
+        plt.title(f"累计确诊预测 - {country}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})")
+        plt.savefig(os.path.join("figures", f"covid-{adjust_name(country)}.svg"), bbox_inches="tight")
 
     s.release()
 
