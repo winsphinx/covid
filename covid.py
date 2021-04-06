@@ -50,10 +50,10 @@ def draw(name, data, isDaily):
     plt.ticklabel_format(style='plain', axis='y')
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
-        plt.title(f"每日新增预测 - {name} \n ARIMA[{model.model_.order} x {model.model_.seasonal_order}] (R2 = {r2:.6f})")
+        plt.title(f"每日新增预测 - {name}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}-daily.svg"), bbox_inches="tight")
     else:
-        plt.title(f"累计确诊预测 - {name} \n ARIMA[{model.model_.order} x {model.model_.seasonal_order}] (R2 = {r2:.6f})")
+        plt.title(f"累计确诊预测 - {name}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{adjust_name(name)}.svg"), bbox_inches="tight")
 
     s.release()
@@ -80,10 +80,9 @@ if __name__ == "__main__":
 
     # 生成目录
     with codecs.open("README.md", "w", 'utf-8') as f:
-        f.write("# COVID-19 预测 ")
-        f.write("[![.github/workflows/build.yml](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)")
-        f.write("[![.github/workflows/check.yml](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)")
-        f.write("\n\n")
+        f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
+        f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
+        f.write("# COVID-19 预测\n\n")
         for country in countries:
             f.write(f"## {country}\n\n")
             f.write(f"![img](figures/covid-{adjust_name(country)}.svg)\n\n")
