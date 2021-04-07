@@ -80,8 +80,8 @@ if __name__ == "__main__":
 
     # 编制索引
     with codecs.open("README.md", "w", 'utf-8') as f:
-        f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
-        f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
+        f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n\n")
+        f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n\n")
         f.write("# COVID-19 预测\n\n")
         for country in countries:
             f.write(f"## {country}\n\n")
