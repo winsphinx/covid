@@ -4,7 +4,7 @@
 import codecs
 import os
 import re
-import threading
+from concurrent.futures.thread import ThreadPoolExecutor
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -22,7 +22,8 @@ def adjust_name(s):
     return re.sub(r"\*|\,|\(|\)|\*|\ |\'", "_", s)
 
 
-def draw(country, data, isDaily):
+def draw(item):
+    country, data, isDaily = item[0], item[1], item[2]
     # 模型训练
     model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
     model.fit(data)
@@ -56,32 +57,22 @@ def draw(country, data, isDaily):
         plt.title(f"累计确诊预测 - {country}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})")
         plt.savefig(os.path.join("figures", f"covid-{adjust_name(country)}.svg"), bbox_inches="tight")
 
-    s.release()
-
 
 if __name__ == "__main__":
     # 准备数据
     df = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv").drop(columns=["Lat", "Long"]).groupby("Country/Region").sum().transpose()
     df.index = pd.DatetimeIndex(df.index.map(adjust_date))
 
-    countries = df.columns.to_list()
+    item = [(c, df[c], False) for c in df.columns.to_list()]
 
-    # 线程队列
-    s = threading.Semaphore(16)
-
-    for country in countries:
-        t = threading.Thread(target=draw, args=(country, df[country], False))
-        s.acquire()
-        t.start()
-
-        t = threading.Thread(target=draw, args=(country, df[country].diff().dropna(), True))
-        s.acquire()
-        t.start()
+    # 线程池
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        pool.map(draw, item)
 
     # 编制索引
     with codecs.open("README.md", "w", 'utf-8') as f:
-        f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n\n")
-        f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n\n")
+        f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
+        f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
         f.write("# COVID-19 预测\n\n")
         for country in countries:
             f.write(f"## {country}\n\n")
