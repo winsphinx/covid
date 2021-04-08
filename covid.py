@@ -63,9 +63,10 @@ if __name__ == "__main__":
     df = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv").drop(columns=["Lat", "Long"]).groupby("Country/Region").sum().transpose()
     df.index = pd.DatetimeIndex(df.index.map(adjust_date))
 
-    item = [(c, df[c], False) for c in df.columns.to_list()]
+    countries = df.columns.to_list()
 
     # 线程池
+    item = [(c, df[c], False) for c in countries]
     with ThreadPoolExecutor(max_workers=16) as pool:
         pool.map(draw, item)
 
@@ -73,7 +74,7 @@ if __name__ == "__main__":
     with codecs.open("README.md", "w", 'utf-8') as f:
         f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
         f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
-        f.write("# COVID-19 预测\n\n")
+        f.write("# COVID-19 Forecasting\n\n")
         for country in countries:
             f.write(f"## {country}\n\n")
             f.write(f"![img](figures/covid-{adjust_name(country)}.svg)\n\n")
