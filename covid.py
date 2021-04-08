@@ -66,9 +66,12 @@ if __name__ == "__main__":
     countries = df.columns.to_list()
 
     # 线程池
-    item = [(c, df[c], False) for c in countries]
+    item1 = [(c, df[c], False) for c in countries]
+    item2 = [(c, df[c].diff().dropna(), True) for c in countries]
+
     with ThreadPoolExecutor(max_workers=16) as pool:
-        pool.map(draw, item)
+        pool.map(draw, item1)
+        pool.map(draw, item2)
 
     # 编制索引
     with codecs.open("README.md", "w", 'utf-8') as f:
