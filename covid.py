@@ -22,11 +22,20 @@ def adjust_name(s):
     return re.sub(r"\*|\,|\(|\)|\*|\ |\'", "_", s)
 
 
-def draw(item):
-    country, data, isDaily = item[0], item[1], item[2]
+def draw(country):
+    draw_(country, True)
+    draw_(country, False)
+
+
+def draw_(country, isDaily):
     # 模型训练
     model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
-    model.fit(data)
+    if isDaily:
+        data = df[country].diff().dropna()
+        model.fit(data)
+    else:
+        data = df[country]
+        model.fit(data)
 
     # 模型验证
     train, test = train_test_split(data, train_size=0.8)
@@ -66,11 +75,8 @@ if __name__ == "__main__":
     countries = df.columns.to_list()
 
     # 线程池
-    item1 = [(c, df[c], False) for c in countries]
-    item2 = [(c, df[c].diff().dropna(), True) for c in countries]
-
     with ThreadPoolExecutor(max_workers=16) as pool:
-        pool.map(draw, item1 + item2)
+        pool.map(draw, countries)
 
     # 编制索引
     with codecs.open("README.md", "w", 'utf-8') as f:
