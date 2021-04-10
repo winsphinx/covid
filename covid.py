@@ -29,12 +29,11 @@ def draw(country):
 
 def draw_(country, isDaily):
     # 模型训练
+    model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
     if isDaily:
-        model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
         data = df[country].diff().dropna()
         model.fit(data)
     else:
-        model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=1, seasonal=False, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
         data = df[country]
         model.fit(data)
 
@@ -74,7 +73,6 @@ if __name__ == "__main__":
     df.index = pd.DatetimeIndex(df.index.map(adjust_date))
 
     countries = df.columns.to_list()
-
     # 线程池
     with ThreadPoolExecutor(max_workers=16) as pool:
         pool.map(draw, countries)
