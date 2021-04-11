@@ -29,7 +29,7 @@ def draw(country):
 
 def draw_(country, isDaily):
     # 模型训练
-    model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="adf", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
+    model = arima.AutoARIMA(start_p=0, max_p=4, d=None, start_q=0, max_q=1, start_P=0, max_P=1, D=None, start_Q=0, max_Q=1, m=7, seasonal=True, test="kpss", trace=True, error_action="ignore", suppress_warnings=True, stepwise=True)
     if isDaily:
         data = df[country].diff().dropna()
         model.fit(data)
@@ -73,14 +73,15 @@ if __name__ == "__main__":
     df.index = pd.DatetimeIndex(df.index.map(adjust_date))
 
     countries = df.columns.to_list()
+
     # 线程池
     with ThreadPoolExecutor(max_workers=16) as pool:
         pool.map(draw, countries)
 
     # 编制索引
     with codecs.open("README.md", "w", 'utf-8') as f:
-        f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
         f.write("[![check status](https://github.com/winsphinx/covid/actions/workflows/check.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/check.yml)\n")
+        f.write("[![build status](https://github.com/winsphinx/covid/actions/workflows/build.yml/badge.svg)](https://github.com/winsphinx/covid/actions/workflows/build.yml)\n")
         f.write("# COVID-19 Forecasting\n\n")
         for country in countries:
             f.write(f"## {country}\n\n")
