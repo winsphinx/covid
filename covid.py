@@ -4,7 +4,7 @@
 import codecs
 import os
 import re
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -111,8 +111,9 @@ if __name__ == "__main__":
     countries = df.columns.to_list()
 
     # 线程池
-    with ThreadPoolExecutor(max_workers=16) as pool:
-        pool.map(draw, countries)
+    with ProcessPoolExecutor() as pool:
+        pool.map(draw, countries, chunksize=8)
+    pool.shutdown(wait=True)
 
     # 编制索引
     with codecs.open("README.md", "w", "utf-8") as f:
