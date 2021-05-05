@@ -79,7 +79,7 @@ def draw_(country, isDaily):
     # plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     if isDaily:
         plt.title(
-            f"Daily Increments Forecasting - {country}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})"
+            f"Daily Confirmed Cases Forecasting - {country}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})"
         )
         plt.savefig(
             os.path.join("figures", f"covid-{adjust_name(country)}-daily.svg"),
@@ -87,7 +87,7 @@ def draw_(country, isDaily):
         )
     else:
         plt.title(
-            f"Cumulative Diagnosis Forecasting - {country}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})"
+            f"Accumulative Confirmed Cases Forecasting - {country}\nARIMA {model.model_.order}x{model.model_.seasonal_order} (R2 = {r2:.6f})"
         )
         plt.savefig(
             os.path.join("figures", f"covid-{adjust_name(country)}.svg"),
