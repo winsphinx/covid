@@ -103,7 +103,7 @@ if __name__ == "__main__":
         pd.read_csv(
             "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
         )
-        .drop(columns=["Lat", "Long"])
+        .drop(columns=["Province/State", "Lat", "Long"])
         .groupby("Country/Region")
         .sum()
         .transpose()
